@@ -12,7 +12,14 @@ import { clamp01, heroState, smooth } from "./hero/state";
 export default function ScrollDriver() {
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const lenis = reduced ? null : new Lenis({ lerp: 0.1, wheelMultiplier: 0.9 });
+    const lenis = reduced ? null : new Lenis({ lerp: 0.1, wheelMultiplier: 0.9, anchors: { offset: 0 } });
+
+    // Freeze scrolling while the full-screen menu is open.
+    const menuWatch = new MutationObserver(() => {
+      if (document.documentElement.classList.contains("menu-open")) lenis?.stop();
+      else lenis?.start();
+    });
+    menuWatch.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
 
     const q = (name: string) => document.querySelector<HTMLElement>(`[data-stage="${name}"]`);
 
@@ -62,6 +69,7 @@ export default function ScrollDriver() {
 
     return () => {
       cancelAnimationFrame(raf);
+      menuWatch.disconnect();
       lenis?.destroy();
     };
   }, []);

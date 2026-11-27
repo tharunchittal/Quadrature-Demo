@@ -5,6 +5,7 @@ import ScrollDriver from "@/components/ScrollDriver";
 import Nav from "@/components/ui/Nav";
 import Frame from "@/components/ui/Frame";
 import Readout from "@/components/ui/Readout";
+import RevealObserver from "@/components/system/RevealObserver";
 import "./globals.css";
 
 const display = Archivo({
@@ -43,7 +44,15 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-GB" className={`${display.variable} ${serif.variable} ${mono.variable}`}>
+    <html
+      lang="en-GB"
+      className={`${display.variable} ${serif.variable} ${mono.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        {/* Hidden reveal states apply only once script runs, so content never depends on JS. */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body>
         <a className="skip mono" href="#content">
           Skip to content
@@ -52,6 +61,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ScrollDriver />
         <Frame />
         <Readout />
+        <RevealObserver />
         <Nav />
         {children}
       </body>
