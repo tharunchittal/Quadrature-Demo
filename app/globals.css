@@ -239,12 +239,39 @@ ol {
   pointer-events: none;
 }
 .hero-fallback {
-  background: var(--ink-0) url(/hero-still.webp) center 30% / cover no-repeat;
+  background: var(--ink-0) center 30% / cover no-repeat;
   opacity: 0.9;
 }
 main {
   position: relative;
   z-index: 1;
+}
+
+/* ---------- Demo banner ---------- */
+:root {
+  --banner: 28px;
+}
+.demo-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 35;
+  height: var(--banner);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 0;
+  padding: 0 var(--margin);
+  background: var(--fg-1);
+  color: var(--ink-0);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.demo-banner a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 /* ---------- Frame ---------- */
@@ -259,8 +286,8 @@ main {
   position: absolute;
   font-variant-numeric: tabular-nums;
 }
-.corner.tl { top: 16px; left: var(--margin); }
-.corner.tr { top: 16px; right: var(--margin); }
+.corner.tl { top: calc(var(--banner) + 16px); left: var(--margin); }
+.corner.tr { top: calc(var(--banner) + 16px); right: var(--margin); }
 .corner.bl { bottom: 14px; left: var(--margin); }
 .corner.br { bottom: 14px; right: var(--margin); }
 .corner span { color: var(--fg-2); }
@@ -277,15 +304,15 @@ main {
 }
 .cross::before { left: 4px; top: 0; width: 1px; height: 9px; }
 .cross::after { top: 4px; left: 0; height: 1px; width: 9px; }
-.cross.c1 { top: 52px; left: 20%; }
-.cross.c2 { top: 52px; right: 20%; }
+.cross.c1 { top: calc(var(--banner) + 52px); left: 20%; }
+.cross.c2 { top: calc(var(--banner) + 52px); right: 20%; }
 .cross.c3 { bottom: 40px; left: 20%; }
 .cross.c4 { bottom: 40px; right: 20%; }
 
 /* ---------- Nav ---------- */
 .nav {
   position: fixed;
-  top: 12px;
+  top: calc(var(--banner) + 12px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 30;
@@ -332,7 +359,7 @@ main {
   inset: 0;
   z-index: 25;
   background: var(--ink-0);
-  padding: 96px var(--margin) 48px;
+  padding: calc(var(--banner) + 96px) var(--margin) 48px;
   overflow-y: auto;
   opacity: 0;
   visibility: hidden;
@@ -425,7 +452,7 @@ main {
   position: fixed;
   z-index: 4;
   left: var(--margin);
-  top: 68px;
+  top: calc(var(--banner) + 68px);
   width: 340px;
   border-top: 1px solid var(--line);
   font-variant-numeric: tabular-nums;
@@ -1491,7 +1518,7 @@ main {
     left: var(--margin);
     right: var(--margin);
     width: auto;
-    top: 60px;
+    top: calc(var(--banner) + 60px);
     display: flex;
     flex-wrap: wrap;
     gap: 0 14px;
@@ -1513,6 +1540,15 @@ main {
 @media (max-width: 760px) {
   .nav-clock span:nth-child(n + 2) {
     display: none;
+  }
+  .demo-banner {
+    justify-content: space-between;
+    font-size: 10px;
+    letter-spacing: 0.03em;
+  }
+  .demo-banner span {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .cross {
     display: none;

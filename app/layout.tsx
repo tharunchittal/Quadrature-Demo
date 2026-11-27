@@ -7,6 +7,7 @@ import Frame from "@/components/ui/Frame";
 import Readout from "@/components/ui/Readout";
 import RevealObserver from "@/components/system/RevealObserver";
 import PageTransition from "@/components/system/PageTransition";
+import DemoBanner from "@/components/system/DemoBanner";
 import "./globals.css";
 
 const display = Archivo({
@@ -58,6 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a className="skip mono" href="#content">
           Skip to content
         </a>
+        <DemoBanner />
         <ClientLayer />
         <ScrollDriver />
         <Frame />

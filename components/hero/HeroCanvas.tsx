@@ -67,7 +67,14 @@ export default function HeroCanvas() {
     };
   }, []);
 
-  if (!supported) return <div className="hero-fallback" aria-hidden="true" />;
+  if (!supported)
+    return (
+      <div
+        className="hero-fallback"
+        aria-hidden="true"
+        style={{ backgroundImage: `url(${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/hero-still.webp)` }}
+      />
+    );
   if (!quality) return null;
 
   return (

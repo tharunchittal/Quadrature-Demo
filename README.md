@@ -28,7 +28,13 @@ npm install
 npm run dev        # http://localhost:3000
 ```
 
-Production build: `npm run build && npm start`.
+Production build: `npm run build` writes a static site to `out/` (preview it with `npx serve out`).
+
+## Hosting: GitHub Pages
+
+`.github/workflows/pages.yml` builds the static export with `NEXT_PUBLIC_BASE_PATH=/Quadrature-Demo` and deploys it on every push to `main`. It goes live at https://tharunchittal.github.io/Quadrature-Demo/ once Pages is enabled (Settings → Pages → Source: GitHub Actions). On a free GitHub plan the repository must be public for Pages to work.
+
+Every page carries a banner: concept redesign, not affiliated with Quadrature Capital, with a link to the official site.
 
 ## The hero: Integral Surface
 
