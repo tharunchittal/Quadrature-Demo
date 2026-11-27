@@ -1,0 +1,60 @@
+import type { Metadata, Viewport } from "next";
+import { Archivo, JetBrains_Mono, Newsreader } from "next/font/google";
+import ClientLayer from "@/components/ClientLayer";
+import ScrollDriver from "@/components/ScrollDriver";
+import Nav from "@/components/ui/Nav";
+import Frame from "@/components/ui/Frame";
+import Readout from "@/components/ui/Readout";
+import "./globals.css";
+
+const display = Archivo({
+  subsets: ["latin"],
+  axes: ["wdth"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const serif = Newsreader({
+  subsets: ["latin"],
+  weight: ["300", "400"],
+  style: ["normal", "italic"],
+  variable: "--font-serif",
+  display: "swap",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["300", "400"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  title: "Quadrature — concept demo",
+  description:
+    "Concept redesign of quadrature.ai. Not affiliated with Quadrature Capital.",
+  robots: { index: false, follow: false, nocache: true },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#050505",
+  colorScheme: "dark",
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en-GB" className={`${display.variable} ${serif.variable} ${mono.variable}`}>
+      <body>
+        <a className="skip mono" href="#content">
+          Skip to content
+        </a>
+        <ClientLayer />
+        <ScrollDriver />
+        <Frame />
+        <Readout />
+        <Nav />
+        {children}
+      </body>
+    </html>
+  );
+}
