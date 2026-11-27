@@ -9,7 +9,7 @@ export default function NextPage({ current }: { current: string }) {
     <>
       <nav className="next-page" aria-label="Next page">
         <span className="mono dim">Next</span>
-        <Link href={next.href} className="next-link display">
+        <Link href={next.href} className="next-link display" data-reveal>
           <span>{next.label}</span>
           <span className="next-arrow" aria-hidden="true">
             →

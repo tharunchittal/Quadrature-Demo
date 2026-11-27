@@ -12,8 +12,8 @@ export default function Footer() {
       </p>
 
       <nav className="footer-index" aria-label="Site index">
-        {SITE.map((group) => (
-          <div key={group.title}>
+        {SITE.map((group, i) => (
+          <div key={group.title} data-reveal style={{ ["--i" as string]: i }}>
             <p className="mono dim">{group.title}</p>
             <ul>
               {group.items.map((item) => (

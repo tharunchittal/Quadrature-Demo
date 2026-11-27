@@ -23,7 +23,7 @@ export default function LegalPage({ path, title, lede, sections, source, sourceN
       <PageHero crumbs={[{ label: "Legal" }, { label: title }]} title={title} lede={lede} />
 
       <div className="legal">
-        <aside className="legal-toc" aria-label="On this page">
+        <aside className="legal-toc" aria-label="On this page" data-reveal>
           <p className="mono dim">On this page</p>
           <ol>
             {sections.map((s) => (

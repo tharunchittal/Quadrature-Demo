@@ -18,7 +18,7 @@ const display = Archivo({
 
 const serif = Newsreader({
   subsets: ["latin"],
-  weight: ["300", "400"],
+  weight: ["300"],
   style: ["normal", "italic"],
   variable: "--font-serif",
   display: "swap",
@@ -26,7 +26,7 @@ const serif = Newsreader({
 
 const mono = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["300", "400"],
+  weight: ["300"],
   variable: "--font-mono",
   display: "swap",
 });

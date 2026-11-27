@@ -29,7 +29,10 @@ export default function HeroCanvas() {
 
   useEffect(() => {
     setSupported(hasWebGL2());
-    setQuality(pickQuality());
+    // Start the canvas once the page is idle, so text paints and becomes interactive first.
+    const start = () => setQuality(pickQuality());
+    const hasIdle = "requestIdleCallback" in window;
+    const idleId = hasIdle ? window.requestIdleCallback(start, { timeout: 600 }) : window.setTimeout(start, 200);
 
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const applyMotion = () => (heroState.reducedMotion = mq.matches);
@@ -55,6 +58,8 @@ export default function HeroCanvas() {
     window.addEventListener("resize", onResize);
 
     return () => {
+      if (hasIdle) window.cancelIdleCallback(idleId);
+      else clearTimeout(idleId);
       mq.removeEventListener("change", applyMotion);
       window.removeEventListener("pointermove", onMove);
       document.documentElement.removeEventListener("pointerleave", onLeave);
@@ -73,7 +78,17 @@ export default function HeroCanvas() {
         camera={{ fov: 34, near: 0.1, far: 30, position: [0, 1.25, 3.4] }}
         frameloop="always"
       >
-        <IntegralSurface cell={quality.cell} segments={quality.segments} />
+        <IntegralSurface
+          cell={quality.cell}
+          segments={quality.segments}
+          onSlow={() =>
+            setQuality((q) =>
+              q && q.cell[0] < 14
+                ? { cell: [q.cell[0] + 2, q.cell[1] + 3], segments: q.segments, dpr: [1, 1] }
+                : q,
+            )
+          }
+        />
       </Canvas>
     </div>
   );

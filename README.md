@@ -65,3 +65,11 @@ Debug: append `?debug=scene` to see the raw surface pass without glyphs.
 ## Design doc
 
 Decisions (monochrome, free fonts, no photos, simple triangle mark, Foundation as an external link, private hosting) live in the design doc.
+
+## Quality checks (phase 4)
+
+- **Accessibility:** axe (WCAG 2.1 AA) reports no violations on any page. Lighthouse accessibility is 100 on the pages audited.
+- **Fallbacks:** without WebGL a still of the hero (`public/hero-still.webp`, 55 KB) stands in for the canvas. Without JavaScript all content is visible. With reduced motion the scene is static and nothing waits on an animation.
+- **Performance:** the canvas starts once the page is idle, drops to 30 fps when dimmed behind text, and moves to a coarser glyph tier if frames stay slower than ~40 fps for 2 s. Lighthouse desktop performance is 83–89 in a lab with no GPU (WebGL emulated on the CPU). The same page with WebGL off scores 97, so the gap is the emulated rendering. Frame rates on real GPUs have not been measured here.
+- **Layout:** no element runs past the screen edge at 390, 768, 1280 or 1440 px on any page.
+- **SEO 60 is intended:** every page is `noindex`.

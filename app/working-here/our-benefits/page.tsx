@@ -63,8 +63,7 @@ export default function BenefitsPage() {
       <section className="section" aria-labelledby="together-lede">
         <SectionHead num="02" title="Spending time together" note="At least once a month" />
         <p id="together-lede" className="statement" data-reveal>
-          Socials at least once a month, two trips a year, and a big Christmas party where everyone can bring their
-          friends.
+          Socials every month, two trips a year, and one big Christmas party.
         </p>
         <div className="split">
           <p className="body" data-reveal style={{ ["--i" as string]: 1 }}>

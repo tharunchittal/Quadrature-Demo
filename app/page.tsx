@@ -16,7 +16,7 @@ const STACK = ["C++", "Python", "Rust"];
 
 export default function Home() {
   return (
-    <main id="top">
+    <main id="content">
       {/* ACTS 1–2 · the curve draws, then the Riemann sum refines with scroll */}
       <section data-stage="riemann" className="stage stage-riemann" aria-labelledby="hero-title">
         <div className="sticky">

@@ -27,6 +27,8 @@ type Props = {
   cell: [number, number];
   /** plane subdivisions (x, z) */
   segments: [number, number];
+  /** called when frames are consistently slow, so the canvas can drop to a coarser tier */
+  onSlow?: () => void;
 };
 
 const INTRO_CURVE = 1.6; // seconds for the curve to draw
@@ -35,7 +37,7 @@ const INTRO_RISE = [1.5, 2.7] as const; // seconds for the first 8 bars to rise
 const damp = (current: number, target: number, lambda: number, dt: number) =>
   THREE.MathUtils.lerp(current, target, 1 - Math.exp(-lambda * dt));
 
-export function IntegralSurface({ cell, segments }: Props) {
+export function IntegralSurface({ cell, segments, onSlow }: Props) {
   const { gl, size, camera } = useThree();
   const persp = camera as THREE.PerspectiveCamera;
 
@@ -169,6 +171,9 @@ export function IntegralSurface({ cell, segments }: Props) {
     clock: 0,
     age: 0,
     lastMs: 0,
+    frame: 0,
+    ema: 1 / 60,
+    slowFor: 0,
   });
   const raycaster = useMemo(() => new THREE.Raycaster(), []);
   const floor = useMemo(() => new THREE.Plane(new THREE.Vector3(0, 1, 0), -0.25), []);
@@ -219,6 +224,17 @@ export function IntegralSurface({ cell, segments }: Props) {
     const rawDt = live.current.lastMs ? (nowMs - live.current.lastMs) / 1000 : 0;
     live.current.lastMs = nowMs;
     const dt = Math.min(Math.max(rawDt, 0), 1 / 20);
+
+    // Adaptive quality: if frames average slower than ~40 fps for 2 s, ask for a coarser tier.
+    // Skipped under automation so test screenshots stay at full fidelity.
+    if (rawDt > 0 && rawDt < 0.25 && !navigator.webdriver) {
+      live.current.ema = live.current.ema * 0.95 + rawDt * 0.05;
+      live.current.slowFor = live.current.ema > 1 / 40 ? live.current.slowFor + rawDt : 0;
+      if (live.current.slowFor > 2 && onSlow) {
+        live.current.slowFor = -4; // give the new tier time to settle
+        onSlow();
+      }
+    }
     const L = live.current;
     const reduced = heroState.reducedMotion;
     L.clock += reduced ? 0 : dt;
@@ -314,6 +330,10 @@ export function IntegralSurface({ cell, segments }: Props) {
       gl.render(surfaceScene, persp);
       return;
     }
+
+    // Behind long text the field is dim and slow: draw every other frame (30 fps).
+    L.frame++;
+    if (L.dim < 0.45 && L.frame % 2 === 1) return;
 
     // Render: scene -> low-res target -> glyphs on screen.
     gl.setRenderTarget(sceneTarget);
