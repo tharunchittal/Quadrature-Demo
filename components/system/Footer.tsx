@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Triangle from "@/components/ui/Triangle";
 import { SITE } from "./site";
 
@@ -17,15 +18,12 @@ export default function Footer() {
             <ul>
               {group.items.map((item) => (
                 <li key={item.label}>
-                  {item.href ? (
-                    <a href={item.href} {...(item.external ? { target: "_blank", rel: "noreferrer" } : {})}>
-                      {item.label}
-                      {item.external ? " ↗" : ""}
+                  {item.external ? (
+                    <a href={item.href} target="_blank" rel="noreferrer">
+                      {item.label} ↗
                     </a>
                   ) : (
-                    <span className="soon" title="Built in phase 3">
-                      {item.label}
-                    </span>
+                    <Link href={item.href}>{item.label}</Link>
                   )}
                 </li>
               ))}

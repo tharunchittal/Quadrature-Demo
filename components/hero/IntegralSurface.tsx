@@ -162,6 +162,7 @@ export function IntegralSurface({ cell, segments }: Props) {
     flatten: 0,
     dim: 1,
     dent: 0,
+    flat: 0,
     pointer: new THREE.Vector2(9, 9),
     camPos: new THREE.Vector3(0, 1.25, 3.4),
     camLook: new THREE.Vector3(0, -0.1, 0),
@@ -229,7 +230,8 @@ export function IntegralSurface({ cell, segments }: Props) {
     const introDraw = reduced ? 1 : clamp01(elapsed / INTRO_CURVE);
     const introRise = reduced ? 1 : smooth(INTRO_RISE[0], INTRO_RISE[1], elapsed);
     const rp = heroState.riemann;
-    const riseTarget = Math.max(introRise, smooth(0, 0.08, rp));
+    L.flat = damp(L.flat, heroState.flat, 3, dt);
+    const riseTarget = Math.max(introRise, smooth(0, 0.08, rp)) * (1 - heroState.flat);
     L.rise = damp(L.rise, riseTarget, 6, dt);
 
     const lvl = barLevel(smooth(0.08, 0.92, rp));
@@ -298,7 +300,7 @@ export function IntegralSurface({ cell, segments }: Props) {
     u.uMesh.value = smooth(0.15, 0.7, s) * (1 - L.logo);
 
     curveUniforms.uDraw.value = introDraw;
-    curveUniforms.uFade.value = clamp01(1 - s * 3) * (1 - L.logo);
+    curveUniforms.uFade.value = clamp01(1 - s * 3) * (1 - L.logo) * (1 - L.flat);
 
     glyphUniforms.uTime.value = t;
     glyphUniforms.uDim.value = L.dim;

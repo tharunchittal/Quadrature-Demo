@@ -30,7 +30,7 @@ export default function Readout() {
       else if (heroState.surface > 0.05) a = 1;
 
       if (root.current) {
-        const show = 1 - heroState.background * 1.6;
+        const show = heroState.scene ? 0 : 1 - heroState.background * 1.6;
         root.current.style.opacity = Math.max(0, Math.min(1, show)).toFixed(3);
       }
 

@@ -5,35 +5,12 @@ import SectionHead from "@/components/system/SectionHead";
 import OfficeCard from "@/components/home/OfficeCard";
 import ValueCard from "@/components/home/ValueCard";
 import Scramble from "@/components/ui/Scramble";
+import { OFFICES } from "@/content/offices";
+import { VALUES } from "@/content/values";
 
-const VALUES = [
-  {
-    name: "Entrepreneurial",
-    is: "We take ownership of outcomes at every step and show real grit in getting things done. That same drive shows up when we look for ways to improve how we do things, day by day, because incremental improvement is critical to achieving long term results.",
-    not: "Being a lone wolf or prioritising your own success.",
-  },
-  {
-    name: "Collaborative",
-    is: "We’re one global team working towards the same goals, not lots of teams working independently. So we weigh ideas, opinions and decisions against what’s best for the wider business, sharing thinking early enough for others to do the same.",
-    not: "Consensus, trying to make everyone happy, or being agreeable in the moment, only to disagree later.",
-  },
-  {
-    name: "Kind",
-    is: "We’re conscientious and treat each other well. We’re also truthful and say the hard thing that needs to be said. This helps others and makes the work better.",
-    not: "Being artificially nice and agreeable, or mistaking conflict avoidance for harmony.",
-  },
-  {
-    name: "Humble",
-    is: "We embrace the position of learner and are curious about things we don’t yet understand.",
-    not: "Being overly deferential, or weak when there’s something to contribute.",
-  },
-];
 
-const OFFICES = [
-  { city: "London", code: "LDN", tz: "Europe/London", lat: "51.51° N", lon: "0.13° W" },
-  { city: "Singapore", code: "SGP", tz: "Asia/Singapore", lat: "1.35° N", lon: "103.82° E" },
-  { city: "New York", code: "NYC", tz: "America/New_York", lat: "40.71° N", lon: "74.01° W" },
-];
+
+
 
 const STACK = ["C++", "Python", "Rust"];
 
@@ -61,7 +38,7 @@ export default function Home() {
                 A systematic trading firm founded by programmers in 2010. London, Singapore, New York.
               </p>
               <div className="actions">
-                <Button href="#join">Come and join us</Button>
+                <Button href="/careers/join-us">Come and join us</Button>
                 <Button href="#what-we-do" variant="line">
                   What we do
                 </Button>
@@ -146,6 +123,11 @@ export default function Home() {
               <ValueCard key={v.name} index={i} {...v} />
             ))}
           </ol>
+          <div className="section-more" data-reveal>
+            <Button href="/about-us" variant="line">
+              Vision, principles and values
+            </Button>
+          </div>
         </section>
 
         <section className="section section-tech" id="technology" aria-labelledby="tech-title">
@@ -173,6 +155,11 @@ export default function Home() {
                 thousands of servers for research, simulation and testing, all coordinated by our own grid
                 scheduling system. And we embrace open source software.
               </p>
+              <div data-reveal style={{ ["--i" as string]: 3 }}>
+                <Button href="/working-here/our-culture" variant="line">
+                  Our culture
+                </Button>
+              </div>
             </div>
           </div>
         </section>
@@ -184,9 +171,23 @@ export default function Home() {
           </p>
           <ul className="offices">
             {OFFICES.map((o, i) => (
-              <OfficeCard key={o.city} index={i} {...o} />
+              <OfficeCard
+                key={o.slug}
+                index={i}
+                city={o.city}
+                code={o.code}
+                tz={o.tz}
+                lat={o.lat}
+                lon={o.lon}
+                href={`/working-here/our-offices/${o.slug}`}
+              />
             ))}
           </ul>
+          <div className="section-more" data-reveal>
+            <Button href="/working-here/our-offices" variant="line">
+              Inside our offices
+            </Button>
+          </div>
         </section>
 
         <section className="section section-foundation" id="foundation" aria-labelledby="qcf-title">
@@ -225,7 +226,7 @@ export default function Home() {
               impact. We care far more about curiosity, attitude and mindset than existing knowledge of our
               industry.
             </p>
-            <Button href="#join">Come and join us</Button>
+            <Button href="/careers/join-us">Come and join us</Button>
           </div>
         </section>
       </div>
@@ -242,10 +243,8 @@ export default function Home() {
             begun.
           </p>
           <div className="actions">
-            <Button href="https://www.quadrature.ai/careers/join-us/" external>
-              Come and join us
-            </Button>
-            <Button href="https://www.quadrature.ai/contact/" variant="line" external>
+            <Button href="/careers/join-us">Come and join us</Button>
+            <Button href="/contact" variant="line">
               Or get in touch
             </Button>
           </div>

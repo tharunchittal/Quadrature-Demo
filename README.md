@@ -2,7 +2,24 @@
 
 A private concept redesign of quadrature.ai. **Not affiliated with Quadrature Capital.** All pages are `noindex`.
 
-This is **phase 1: the hero prototype**, the Integral Surface, in a Next.js app.
+All three phases are built: the Integral Surface hero, the design system and home page, and every other page of quadrature.ai (18 routes).
+
+## Pages
+
+| Route | Template | Canvas scene |
+| --- | --- | --- |
+| `/` | Home | Five scroll-driven acts |
+| `/about-us` | Content | Surface |
+| `/working-here/our-culture` | Content | Surface |
+| `/working-here/our-offices` | Content | Peaks |
+| `/working-here/our-offices/[london, singapore, new-york]` | Office | Peaks |
+| `/working-here/our-benefits` | Content, with a filterable benefits table | Surface |
+| `/careers/join-us` · `/careers/internships` | Content | Bars (the integral) |
+| `/careers/how-we-hire` | Content, with a four-stage stepper | Bars |
+| `/contact` | Content | Triangle |
+| `/corporate-social-responsibility` · `/data-vendors` · `/scam-warning` · `/regulatory-disclosures` · `/legal/cookies-policy` · `/legal/terms-and-conditions` | Legal | Flat |
+
+Sub-pages ask for a resting scene with `<main data-scene="…">`. The canvas lives in the root layout, so on client navigation the scene morphs while a field of digits wipes across the screen. Legal and CSR pages summarise Quadrature's text and link to the authoritative version on quadrature.ai. The demo publishes no contact email addresses and has no live forms.
 
 ## Run it
 

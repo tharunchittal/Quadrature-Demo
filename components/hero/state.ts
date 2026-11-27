@@ -17,6 +17,10 @@ export const heroState = {
   pointer: { x: 0, y: 0, active: false, lastMove: 0 },
   /** set when the user prefers reduced motion */
   reducedMotion: false,
+  /** 0..1 lay everything flat (legal pages) */
+  flat: 0,
+  /** scene requested by a sub-page via data-scene, null on the home page */
+  scene: null as string | null,
 };
 
 export type HeroState = typeof heroState;

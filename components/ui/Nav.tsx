@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Triangle from "./Triangle";
 import { HOME_SECTIONS, SITE } from "@/components/system/site";
 
@@ -29,6 +31,10 @@ const fmt = (d: Date, tz: string) =>
 export default function Nav() {
   const now = useClock();
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Close the menu whenever the route changes.
+  useEffect(() => setOpen(false), [pathname]);
 
   useEffect(() => {
     document.documentElement.classList.toggle("menu-open", open);
@@ -43,10 +49,10 @@ export default function Nav() {
   return (
     <>
       <header className="nav mono">
-        <a className="nav-mark" href="#top" aria-label="Quadrature, back to top">
+        <Link className="nav-mark" href="/" aria-label="Quadrature, home">
           <Triangle size={16} />
           <span>QUADRATURE</span>
-        </a>
+        </Link>
         <span className="nav-clock" aria-label="Office times">
           {CITIES.map((c) => (
             <span key={c.code}>
@@ -69,10 +75,10 @@ export default function Nav() {
           <ol className="menu-main">
             {HOME_SECTIONS.map(([num, label, href], i) => (
               <li key={href} style={{ ["--i" as string]: i }}>
-                <a href={href} onClick={() => setOpen(false)} tabIndex={open ? 0 : -1}>
+                <Link href={href} onClick={() => setOpen(false)} tabIndex={open ? 0 : -1}>
                   <span className="mono dim">{num}</span>
                   <span className="menu-label">{label}</span>
-                </a>
+                </Link>
               </li>
             ))}
           </ol>
@@ -83,19 +89,25 @@ export default function Nav() {
                 <ul>
                   {g.items.map((it) => (
                     <li key={it.label}>
-                      {it.href ? (
+                      {it.external ? (
                         <a href={it.href} target="_blank" rel="noreferrer" tabIndex={open ? 0 : -1}>
                           {it.label} ↗
                         </a>
                       ) : (
-                        <span className="soon">{it.label}</span>
+                        <Link
+                          href={it.href}
+                          onClick={() => setOpen(false)}
+                          tabIndex={open ? 0 : -1}
+                          aria-current={pathname === it.href ? "page" : undefined}
+                        >
+                          {it.label}
+                        </Link>
                       )}
                     </li>
                   ))}
                 </ul>
               </div>
             ))}
-            <p className="mono dim menu-note">Greyed pages arrive in phase 3.</p>
           </div>
         </div>
       </nav>

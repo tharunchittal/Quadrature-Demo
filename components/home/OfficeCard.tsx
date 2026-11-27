@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
-type Props = { index: number; city: string; code: string; tz: string; lat: string; lon: string };
+type Props = { index: number; city: string; code: string; tz: string; lat: string; lon: string; href?: string };
 
 function localParts(tz: string) {
   const d = new Date();
@@ -13,7 +14,7 @@ function localParts(tz: string) {
 }
 
 /** City, live local time, and whether it is working hours there right now. */
-export default function OfficeCard({ index, city, code, tz, lat, lon }: Props) {
+export default function OfficeCard({ index, city, code, tz, lat, lon, href }: Props) {
   const [now, setNow] = useState<ReturnType<typeof localParts> | null>(null);
 
   useEffect(() => {
@@ -34,7 +35,15 @@ export default function OfficeCard({ index, city, code, tz, lat, lon }: Props) {
           <i aria-hidden="true" /> {now ? (open ? "Working hours" : "After hours") : "—"}
         </span>
       </div>
-      <h3 className="display office-name">{city}</h3>
+      <h3 className="display office-name">
+        {href ? (
+          <Link href={href} className="office-link">
+            {city} <span aria-hidden="true">→</span>
+          </Link>
+        ) : (
+          city
+        )}
+      </h3>
       <p className="office-time" aria-live="off">
         {now ? now.time : "--:--:--"}
         <span className="mono dim"> {now?.day ?? ""} · local</span>

@@ -6,6 +6,7 @@ import Nav from "@/components/ui/Nav";
 import Frame from "@/components/ui/Frame";
 import Readout from "@/components/ui/Readout";
 import RevealObserver from "@/components/system/RevealObserver";
+import PageTransition from "@/components/system/PageTransition";
 import "./globals.css";
 
 const display = Archivo({
@@ -64,6 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <RevealObserver />
         <Nav />
         {children}
+        <PageTransition />
       </body>
     </html>
   );
